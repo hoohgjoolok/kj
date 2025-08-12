@@ -1,22 +1,19 @@
-name: permission_app
-description: تطبيق Flutter لطلب أذونات الملفات والرسائل SMS
-
-publish_to: 'none' # هذا لمنع نشر الحزمة على pub.dev
+name: my_permission_app
+description: A new Flutter project.
 
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.18.0 <4.0.0"
+  sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  permission_handler: ^10.4.0
+  permission_handler: ^8.1.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^2.0.0
 
 flutter:
   uses-material-design: true
