@@ -1,19 +1,27 @@
-name: my_permission_app
-description: A new Flutter project.
+name: Flutter Build APK
 
-version: 1.0.0+1
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
-environment:
-  sdk: ">=2.7.0 <3.0.0"
+jobs:
+  build:
+    runs-on: ubuntu-latest
 
-dependencies:
-  flutter:
-    sdk: flutter
-  permission_handler: ^8.1.1
-
-dev_dependencies:
-  flutter_test:
-    sdk: flutter
-
-flutter:
-  uses-material-design: true
+    steps:
+      - uses: actions/checkout@v2
+      
+      - uses: subosito/flutter-action@v1
+        with:
+          flutter-version: '3.7.0'
+          
+      - run: flutter pub get
+      
+      - run: flutter build apk --release
+      
+      - uses: actions/upload-artifact@v2
+        with:
+          name: release-apk
+          path: build/app/outputs/flutter-apk/app-release.apk
