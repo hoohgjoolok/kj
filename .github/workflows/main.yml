@@ -11,22 +11,26 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: 📥 Checkout Repository
+      # 1️⃣ نسخ المستودع
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: 🛠️ Install Flutter
+      # 2️⃣ تثبيت Flutter
+      - name: Install Flutter
         uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.22.0' # يمكنك تغيير الإصدار إذا أحببت
 
-      - name: 📦 Install Dependencies
+      # 3️⃣ تثبيت المكتبات
+      - name: Install Dependencies
         run: flutter pub get
 
-      - name: 🏗️ Build APK
+      # 4️⃣ بناء APK
+      - name: Build APK
         run: flutter build apk --release
-        # ملاحظة: لا نحتاج -t lib/main.dart لأن Flutter يعرف المسار الافتراضي
 
-      - name: 📤 Upload APK Artifact
+      # 5️⃣ رفع APK كـ Artifact
+      - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: app-release
