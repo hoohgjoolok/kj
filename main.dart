@@ -2,99 +2,86 @@ import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'تطبيق الترحيب',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: PermissionRequestScreen(),
+      debugShowCheckedModeBanner: false,
+      title: 'Permission App',
+      theme: ThemeData(primarySwatch: Colors.blue),
+      home: const PermissionPage(),
     );
   }
 }
 
-class PermissionRequestScreen extends StatefulWidget {
+class PermissionPage extends StatefulWidget {
+  const PermissionPage({super.key});
+
   @override
-  _PermissionRequestScreenState createState() => _PermissionRequestScreenState();
+  State<PermissionPage> createState() => _PermissionPageState();
 }
 
-class _PermissionRequestScreenState extends State<PermissionRequestScreen> {
-  bool _permissionsGranted = false;
-  String _statusMessage = 'الرجاء منح الأذونات المطلوبة';
+class _PermissionPageState extends State<PermissionPage> {
+  bool granted = false;
 
-  Future<void> _requestPermissions() async {
-    // طلب إذن الوصول إلى الملفات
+  Future<void> requestPermissions() async {
     var storageStatus = await Permission.storage.request();
-    
-    // طلب إذن قراءة رسائل SMS
     var smsStatus = await Permission.sms.request();
 
     if (storageStatus.isGranted && smsStatus.isGranted) {
       setState(() {
-        _permissionsGranted = true;
-        _statusMessage = 'تم منح جميع الأذونات';
+        granted = true;
       });
     } else {
       setState(() {
-        _statusMessage = 'لم يتم منح جميع الأذونات';
+        granted = false;
       });
     }
   }
 
   @override
+  void initState() {
+    super.initState();
+    requestPermissions();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('طلب الأذونات'),
-      ),
+      appBar: AppBar(title: const Text("طلب الأذونات")),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              _statusMessage,
-              style: TextStyle(fontSize: 18),
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: _requestPermissions,
-              child: Text('طلب الأذونات'),
-            ),
-            SizedBox(height: 20),
-            if (_permissionsGranted)
-              ElevatedButton(
+        child: granted
+            ? ElevatedButton(
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => WelcomeScreen()),
+                    MaterialPageRoute(builder: (context) => const WelcomePage()),
                   );
                 },
-                child: Text('دخول'),
-              ),
-          ],
-        ),
+                child: const Text("دخول"),
+              )
+            : const Text("يرجى منح الأذونات أولاً"),
       ),
     );
   }
 }
 
-class WelcomeScreen extends StatelessWidget {
+class WelcomePage extends StatelessWidget {
+  const WelcomePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('مرحباً بك'),
-      ),
-      body: Center(
+      appBar: AppBar(title: const Text("الصفحة الرئيسية")),
+      body: const Center(
         child: Text(
-          'مرحبا',
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          "مرحبا",
+          style: TextStyle(fontSize: 30),
         ),
       ),
     );
