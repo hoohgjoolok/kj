@@ -1,0 +1,16 @@
+name: permission_app
+description: تطبيق Flutter لطلب أذونات الملفات والرسائل SMS
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.17.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  permission_handler: ^10.4.0
+
+flutter:
+  uses-material-design: true
