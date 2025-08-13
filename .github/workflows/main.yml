@@ -17,13 +17,14 @@ jobs:
       - name: 🛠️ Install Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.22.0' # عدل الإصدار إذا أردت
+          flutter-version: '3.22.0' # يمكنك تغيير الإصدار إذا أحببت
 
       - name: 📦 Install Dependencies
         run: flutter pub get
 
       - name: 🏗️ Build APK
-        run: flutter build apk --release -t main.dart
+        run: flutter build apk --release
+        # ملاحظة: لا نحتاج -t lib/main.dart لأن Flutter يعرف المسار الافتراضي
 
       - name: 📤 Upload APK Artifact
         uses: actions/upload-artifact@v4
